@@ -12,10 +12,10 @@ const getRequirements = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get requirement by Id
-// @route   GET /api/requirement/:id
+// @route   GET /api/requirement/:admin
 // @access  Public
 const getRequirement = asyncHandler(async (req, res) => {
-  const requirement = await Requirement.findById(req.params.id)
+  const requirement = await Requirement.findById({ admin: req.params.admin })
 
   if (!requirement) {
     res.status(404)

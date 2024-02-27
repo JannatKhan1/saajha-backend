@@ -15,8 +15,11 @@ router.get('/',getRequirements)
 
 router
   .route('/:id')
-  .get(getRequirement)
   .delete(adminprotect, deleteRequirement)
+
+router
+.route('/:admin')
+.get(getRequirement)
  
 
 
