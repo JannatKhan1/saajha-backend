@@ -2,6 +2,14 @@ const asyncHandler = require('express-async-handler')
 
 const Requirement = require('../models/requirementModel')
 
+// @desc    Get all Requirements
+// @route   GET /api/requirement
+// @access  Public
+const getRequirements = asyncHandler(async (req, res) => {
+  const requirements = await Requirement.find()
+
+  res.status(200).json(requirements)
+})
 
 // @desc    Get requirement by Id
 // @route   GET /api/requirement/:id
@@ -69,4 +77,5 @@ module.exports = {
   getRequirement,
   addRequirements,
   deleteRequirement,
+  getRequirements,
 }
