@@ -14,16 +14,22 @@ const getRequirements = asyncHandler(async (req, res) => {
 // @desc    Get requirement by Id
 // @route   GET /api/requirement/:admin
 // @access  Public
+// @desc    Get requirements by admin ID
+// @route   GET /api/requirement/:adminId
+// @access  Public
 const getRequirement = asyncHandler(async (req, res) => {
-  const requirement = await Requirement.findById({ admin: req.params.admin })
+  const adminId = req.params.adminId;
 
-  if (!requirement) {
-    res.status(404)
-    throw new Error('Requirement not found')
+  const requirements = await Requirement.find({ admin: adminId });
+
+  if (!requirements) {
+    res.status(404);
+    throw new Error('Requirements not found');
   }
 
-  res.status(200).json(requirement)
-})
+  res.status(200).json(requirements);
+});
+
 
 // @desc    Add new requirements
 // @route   POST /api/requirement

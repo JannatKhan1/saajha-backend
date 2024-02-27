@@ -18,7 +18,7 @@ router
   .delete(adminprotect, deleteRequirement)
 
 router
-.route('/:admin')
+.route('/:adminId')
 .get(getRequirement)
  
 
