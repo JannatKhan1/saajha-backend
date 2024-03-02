@@ -4,7 +4,7 @@ const applicationSchema = mongoose.Schema({
     status: {
         type: String,
         required: [true, 'Please add status'],
-        enum: ['Approved','Rejected','Pending'],
+        enum: ['Approved','Rejected','Applied'],
     },
     description: {
         type: String,

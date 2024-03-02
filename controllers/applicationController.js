@@ -62,7 +62,7 @@ const createApplication = asyncHandler(async (req, res) => {
       ngo: ngoId,
       admin: ngo.admin, // Use the admin ID from the NGO model
       volunteer: req.vol.id,
-      status: 'Pending',
+      status: 'Applied',
     });
 
     res.status(201).json(application);
