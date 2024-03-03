@@ -25,6 +25,10 @@ const getApplication = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Application not found');
   }
+  if (application.volunteer.toString() !== req.vol.id) {
+    res.status(401)
+    throw new Error('Not Authorized')
+  }
 
   res.status(200).json(application);
 });
