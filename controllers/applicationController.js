@@ -18,50 +18,24 @@ const getApplications = asyncHandler(async (req, res) => {
 // @desc    Get volunteer application by admin
 // @route   GET /api/application/:ngoId/:id
 // @access  Private
-
 const getApplication = asyncHandler(async (req, res) => {
-  try {
-    const application = await Application.findById(req.params.id);
-    const { ngoId } = req.params;
+  const application = await Application.findById(req.params.id);
+  const { ngoId } = req.params;
 
-    if (!application) {
-      res.status(404);
-      throw new Error('Application not found');
-    }
-
-    if (!application.ngo || application.ngo.toString() !== ngoId) {
-      res.status(400).json({ error: 'Application not valid for NGO' });
-      return;
-    }
-
-    res.status(200).json(application);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server Error' });
+  if (!application) {
+    res.status(404);
+    throw new Error('Application not found');
   }
+
+  if (application.ngo.toString() !== ngoId) {
+    res.status(400).json({ error: 'Application not valid for NGO' });
+    return;
+  }
+
+  res.status(200).json(application);
 });
 
-// @desc    Get volunteer application by volunteer
-// @route   GET /api/application/:ngoId/:volId
-// @access  Private
 
-const getStatus = asyncHandler(async (req, res) => {
-  try {
-    const { volId, ngoId } = req.params;
-  
-    const application = await Application.find({ ngo: ngoId, volunteer: volId });
-
-    if (!application || application.length === 0) {
-      res.status(404);
-      throw new Error('Application not found');
-    }
-
-    res.status(200).json(application);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server Error' });
-  }
-});
 
 
 // @desc    Create new volunteer application
@@ -167,5 +141,4 @@ module.exports = {
   createApplication,
   rejectStatus,
   acceptStatus,
-  getStatus,
 }
