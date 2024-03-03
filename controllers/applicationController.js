@@ -15,11 +15,12 @@ const getApplications = asyncHandler(async (req, res) => {
   res.status(200).json(applications)
 })
 
-// @desc    Get volunteer application by admin
-// @route   GET /api/application/:id
+// @desc    Get volunteer application by volunteer
+// @route   GET /api/application/:ngoId
 // @access  Private
 const getApplication = asyncHandler(async (req, res) => {
-  const application = await Application.findById(req.params.id);
+  const {ngoId} = req.params
+  const application = await Application.find({ ngo:ngoId });
 
   if (!application) {
     res.status(404);
