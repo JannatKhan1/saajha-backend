@@ -19,19 +19,28 @@ const getApplications = asyncHandler(async (req, res) => {
 // @route   GET /api/application/:ngoId
 // @access  Private
 const getApplication = asyncHandler(async (req, res) => {
-  const {ngoId} = req.params
-  const application = await Application.find({ ngo:ngoId });
+  const { ngoId } = req.params;
 
-  if (!application) {
+  // Find applications matching the ngoId
+  const applications = await Application.find({ ngo: ngoId });
+
+  // Check if any applications were found
+  if (applications.length === 0) {
     res.status(404);
     throw new Error('Application not found');
   }
-  if (application.volunteer.toString() !== req.vol.id) {
-    res.status(401)
-    throw new Error('Not Authorized')
+
+  // Check if the requester is authorized to access the application
+  const authorizedApplications = applications.filter(application => application.volunteer.toString() === req.vol.id);
+
+  // If no authorized applications found, return 401
+  if (authorizedApplications.length === 0) {
+    res.status(401);
+    throw new Error('Not Authorized');
   }
 
-  res.status(200).json(application);
+  // Return the authorized applications
+  res.status(200).json(authorizedApplications);
 });
 
 
