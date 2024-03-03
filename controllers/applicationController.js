@@ -16,20 +16,14 @@ const getApplications = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get volunteer application by admin
-// @route   GET /api/application/:ngoId/:id
+// @route   GET /api/application/:id
 // @access  Private
 const getApplication = asyncHandler(async (req, res) => {
   const application = await Application.findById(req.params.id);
-  const { ngoId } = req.params;
 
   if (!application) {
     res.status(404);
     throw new Error('Application not found');
-  }
-
-  if (application.ngo.toString() !== ngoId) {
-    res.status(400).json({ error: 'Application not valid for NGO' });
-    return;
   }
 
   res.status(200).json(application);
