@@ -11,9 +11,7 @@ const getRequirements = asyncHandler(async (req, res) => {
   res.status(200).json(requirements)
 })
 
-// @desc    Get requirement by Id
-// @route   GET /api/requirement/:admin
-// @access  Public
+
 // @desc    Get requirements by admin ID
 // @route   GET /api/requirement/:adminId
 // @access  Public

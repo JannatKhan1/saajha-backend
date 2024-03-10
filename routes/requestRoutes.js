@@ -1,14 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const {
-  getApplications,
+  getRequest,
+  getRequests,
   acceptStatus,
   rejectStatus,
-} = require('../controllers/applicationController')
+} = require('../controllers/requestController')
 
 const { adminprotect } = require('../middleware/adminMiddleware')
 
-router.route('/:ngoId').get(adminprotect,getApplications)
+router.route('/:ngoId').get(adminprotect,getRequests)
+router.route('/:id').get(adminprotect,getRequest)
 router.route('/:id').put(adminprotect,acceptStatus)
 router.route('/reject/:id').put(adminprotect,rejectStatus)
 
