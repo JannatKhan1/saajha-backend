@@ -22,7 +22,8 @@ app.use('/api/admin',require('./routes/adminRoutes'))
 app.use('/api/requirement',require('./routes/requirementRoutes'))
 app.use('/api/application',require('./routes/applicationRoutes'))
 app.use('/api/requests',require('./routes/requestRoutes'))
-
+app.use('/api/counsellor',require('./routes/counsellorRoutes'))
+app.use('/api/case',require('./routes/caseRoutes'))
 
 app.use(errorHandler)
 
