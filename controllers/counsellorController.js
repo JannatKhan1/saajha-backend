@@ -50,7 +50,6 @@ const registerCounsellor = asyncHandler(async (req, res) => {
       dob: counsellor.dob,
       specialisation: counsellor.specialisation,
       gender: counsellor.gender,
-      NGOid: counsellor.NGOid,
       token: generateToken(counsellor._id),
       admin: req.admin.id,
     })
@@ -76,6 +75,12 @@ const loginCounsellor = asyncHandler(async (req, res) => {
       _id:  counsellor._id,
       name:  counsellor.name,
       email:  counsellor.email,
+      certification: counsellor.certification,
+      dob: counsellor.dob,
+      specialisation: counsellor.specialisation,
+      gender: counsellor.gender,
+      token: generateToken(counsellor._id),
+      admin: req.admin.id,
     })
   } else {
     res.status(401)
