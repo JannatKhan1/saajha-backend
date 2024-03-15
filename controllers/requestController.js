@@ -12,7 +12,7 @@ const getRequests = asyncHandler(async (req, res) => {
     const { ngoId } = req.params;
   
     // Find applications matching the ngoId
-    const applications = await Application.find({ ngo: ngoId });
+    const applications = await Application.find({ ngo: ngoId }).populate('volunteer');
   
     // Check if any applications were found
     if (applications.length === 0) {
