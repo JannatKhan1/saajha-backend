@@ -5,7 +5,7 @@ const NGO = require('../models/ngoModel')
 
 
 
-// @desc    Get volunteer request by admin
+// @desc    Get all volunteer request by admin
 // @route   GET /api/requets/:ngoId
 // @access  Private
 const getRequests = asyncHandler(async (req, res) => {
@@ -57,11 +57,11 @@ const getRequest = asyncHandler(async (req, res) => {
 // @route   PUT /api/requests/reject/:id
 // @access  Private
 const rejectStatus = asyncHandler(async (req, res) => {
-    const applicationId = req.params.id;
+  
     const adminId = req.admin.id; // Assuming req.admin.id contains the ID of the admin
   
     // Find the application by ID
-    const application = await Application.findById(applicationId);
+    const application = await Application.findById(req.params.id);
   
     if (!application) {
       res.status(404).json({ success: false, message: 'Application not found' });
