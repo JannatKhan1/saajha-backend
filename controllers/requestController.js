@@ -44,10 +44,6 @@ const getRequest = asyncHandler(async (req, res) => {
     throw new Error('Request not found')
   }
 
-  if (request.admin.toString() !== req.admin.id) {
-    res.status(401)
-    throw new Error('Not Authorized')
-  }
 
   res.status(200).json(request)
 })
@@ -58,7 +54,6 @@ const getRequest = asyncHandler(async (req, res) => {
 // @access  Private
 const rejectStatus = asyncHandler(async (req, res) => {
 
-    const adminId = req.admin.id; // Assuming req.admin.id contains the ID of the admin
   
     // Find the application by ID
     const application = await Application.findById(req.params.id);
@@ -68,11 +63,7 @@ const rejectStatus = asyncHandler(async (req, res) => {
       return;
     }
   
-    // Verify if the application's admin ID matches the ID of the admin making the request
-    if (application.admin.toString() !== adminId) {
-      res.status(403).json({ success: false, message: 'You are not authorized to update this application' });
-      return;
-    }
+   
   
     // Update the application status to "Rejected"
     application.status = 'Rejected';
@@ -87,7 +78,7 @@ const rejectStatus = asyncHandler(async (req, res) => {
   // @access  Private
   const acceptStatus = asyncHandler(async (req, res) => {
     const applicationId = req.params.id;
-    const adminId = req.admin.id; // Assuming req.admin.id contains the ID of the admin
+    
   
     // Find the application by ID
     const application = await Application.findById(applicationId);
@@ -97,11 +88,7 @@ const rejectStatus = asyncHandler(async (req, res) => {
       return;
     }
   
-    // Verify if the application's admin ID matches the ID of the admin making the request
-    if (application.admin.toString() !== adminId) {
-      res.status(403).json({ success: false, message: 'You are not authorized to update this application' });
-      return;
-    }
+  
   
     // Update the application status to "Approved"
     application.status = 'Approved';
