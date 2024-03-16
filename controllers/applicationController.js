@@ -4,13 +4,12 @@ const Application = require('../models/applicationModel')
 const NGO = require('../models/ngoModel')
 
 // @desc    Get volunteer application by volunteer
-// @route   GET /api/application/:ngoId
+// @route   GET /api/application/
 // @access  Private
 const getApplications = asyncHandler(async (req, res) => {
-  const { ngoId } = req.params;
 
   // Find applications matching the ngoId
-  const applications = await Application.find({ ngo: ngoId });
+  const applications = await Application.find();
 
   // Check if any applications were found
   if (applications.length === 0) {

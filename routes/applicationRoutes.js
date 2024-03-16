@@ -10,6 +10,6 @@ const { protect } = require('../middleware/volunteerMiddleware')
 
 
 router.route('/:ngoId').post(protect, createApplication)
-router.route('/:ngoId').get(protect,getApplications)
+router.route('/').get(protect,getApplications)
 
 module.exports = router
