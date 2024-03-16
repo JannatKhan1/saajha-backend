@@ -6,7 +6,7 @@ const NGO = require('../models/ngoModel')
 // @desc    Get volunteer application by volunteer
 // @route   GET /api/application/:ngoId
 // @access  Private
-const getApplication = asyncHandler(async (req, res) => {
+const getApplications = asyncHandler(async (req, res) => {
   const { ngoId } = req.params;
 
   // Find applications matching the ngoId
@@ -72,8 +72,10 @@ const createApplication = asyncHandler(async (req, res) => {
 })
 
 
+
+
 module.exports = {
-  getApplication,
+  getApplications,
   createApplication,
   
 }
