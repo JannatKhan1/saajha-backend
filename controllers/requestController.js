@@ -37,11 +37,13 @@ const getRequests = asyncHandler(async (req, res) => {
 // @route   GET /api/requests/:id
 // @access  Private
 const getRequest = asyncHandler(async (req, res) => {
+  
   const request = await Application.findById(req.params.id)
 
   if (!request) {
     res.status(404)
     throw new Error('Request not found')
+    console.log(req.params.id)
   }
 
 
