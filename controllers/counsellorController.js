@@ -8,10 +8,10 @@ const Counsellor = require('../models/counsellorModel')
 // @route   /api/counsellor
 // @access  Public
 const registerCounsellor = asyncHandler(async (req, res) => {
-  const { name, email, password, certification, dob, specialisation, gender, NGOid } = req.body
+  const { name, email, password, certification, dob, specialisation, gender } = req.body
 
   // Validation
-  if (!name || !email || !password || !certification || !dob || !specialisation || !gender || !NGOid ) {
+  if (!name || !email || !password || !certification || !dob || !specialisation || !gender) {
     res.status(400)
     throw new Error('Please include all fields')
   }
@@ -36,8 +36,7 @@ const registerCounsellor = asyncHandler(async (req, res) => {
     certification, 
     dob, 
     specialisation, 
-    gender, 
-    NGOid,
+    gender,
     admin: req.admin.id,
   })
 
@@ -75,12 +74,6 @@ const loginCounsellor = asyncHandler(async (req, res) => {
       _id:  counsellor._id,
       name:  counsellor.name,
       email:  counsellor.email,
-      certification: counsellor.certification,
-      dob: counsellor.dob,
-      specialisation: counsellor.specialisation,
-      gender: counsellor.gender,
-      token: generateToken(counsellor._id),
-      admin: req.admin.id,
     })
   } else {
     res.status(401)
@@ -101,7 +94,6 @@ const getMe = asyncHandler(async (req, res) => {
     dob: req.counsellor.dob,
     specialisation: req.counsellor.specialisation,
     gender: req.counsellor.gender,
-    NGOid: req.counsellor.NGOid,
   }
   res.status(200).json(counsellor)
 })
@@ -148,8 +140,8 @@ const updateCounsellor = asyncHandler(async (req, res) => {
   // Create an update object with all the fields
   const update = { 
     certification: req.counsellor.certification,
-    specialisation: req.counsellor.specialisation,
-    NGOid: req.counsellor.NGOid };
+    specialisation: req.counsellor.specialisation
+    };
   
     for (const key in req.body) {
       if (req.body[key]) {

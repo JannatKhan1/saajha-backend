@@ -13,30 +13,12 @@ const loginCase = asyncHandler(async (req, res) => {
   const cases = await Case.findOne({ email })
 
   
-  // Check case,key and passwords match
-  if ( cases && (await bcrypt.compare(password,  cases.password)) && String(key) === String( cases._id))  {
+  // Check case, and passwords match
+  if ( cases && (await bcrypt.compare(password,  cases.password)))  {
     res.status(200).json({
       _id: cases._id,
       name: cases.name,
       email: cases.email,
-      disability: cases.disability, 
-      guardianName: cases.guardianName, 
-      guardianPhone: cases.guardianPhone,
-      dob: cases.dob,
-      developmentalHistory: cases.developmentalHistory,
-      gender: cases.gender,
-      presentComplaints: cases.presentComplaints,
-      advice: cases.advice,
-      previousDiagnosis: cases.previousDiagnosis,
-      currentDiagnosis: cases.currentDiagnosis,
-      clinicalObservation: cases.clinicalObservation,
-      suggestedInvestigationType: cases.suggestedInvestigationType,
-      diagnosticTest: cases.diagnosticTest,
-      testResults: cases.testResults,
-      report: cases.report,
-      SuggestionsForFurtherInvestigation: cases.SuggestionsForFurtherInvestigation,
-      token: generateToken(cases._id),
-      counsellor: req.counsellor.id,
     })
   } else {
     res.status(401)
@@ -53,7 +35,6 @@ const getMe = asyncHandler(async (req, res) => {
     id: req. cases._id,
     email: req. cases.email,
     name: req. cases.name,
-    disability: req.cases.disability,
     dob: req.cases.dob,
     developmentalHistory: req.cases.developmentalHistory,
     gender: req.cases.gender,
@@ -84,9 +65,10 @@ const generateToken = (id) => {
 // @route   /api/registerCase
 // @access  Public
 const registerCase = asyncHandler(async (req, res) => {
-  const { name, email, password, disability, guardianName, guardianPhone,
+  const { name, email, password, guardianName, guardianPhone,
      dob, developmentalHistory, gender, presentComplaints, advice, previousDiagnosis,
-     currentDiagnosis, clinicalObservation, suggestedInvestigationType, diagnosticTest, testResults, report, SuggestionsForFurtherInvestigation} = req.body
+     currentDiagnosis, clinicalObservation, suggestedInvestigationType, diagnosticTest,
+     testResults, report, SuggestionsForFurtherInvestigation} = req.body
 
   // Validation
   if (!name || !email || !password || !guardianName || !guardianPhone || !dob  || !gender ) {
@@ -111,7 +93,6 @@ const registerCase = asyncHandler(async (req, res) => {
     name, 
     email, 
     password: hashedPassword, 
-    disability, 
     guardianName, 
     guardianPhone, 
     dob, 
@@ -134,8 +115,7 @@ const registerCase = asyncHandler(async (req, res) => {
     res.status(201).json({
       _id: cases._id,
       name: cases.name,
-      email: cases.email,
-      disability: cases.disability, 
+      email: cases.email, 
       guardianName: cases.guardianName, 
       guardianPhone: cases.guardianPhone,
       dob: cases.dob,
@@ -211,7 +191,6 @@ const updateCase = asyncHandler(async (req, res) => {
   const update = { name: req.body.name,
     gender: req.body.gender,
     dob: req.body.dob,
-    disability: req.body.disability,
     guardianName: req.body.guardianName,
     guardianPhone: req.body.guardianPhone,
     email: req.body.email,
@@ -241,7 +220,7 @@ const updateCase = asyncHandler(async (req, res) => {
 });
 
 // @desc    Add remarks
-// @route   POST /api/case/remarks
+// @route   POST /api/case/remarks/:id
 // @access  Private
 const addRemarks = asyncHandler(async (req, res) => {
   const casee = await Case.findById(req.params.id);

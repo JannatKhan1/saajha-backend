@@ -36,9 +36,6 @@ const caseSchema = mongoose.Schema({
         type: Number,
         required: [true, 'Please add guardian phone number']
     },
-    disability: {
-        type: String,
-    },
     previousDiagnosis: {
         type: String,
     },
