@@ -79,7 +79,6 @@ const loginCounsellor = asyncHandler(async (req, res) => {
       specialisation: counsellor.specialisation,
       gender: counsellor.gender,
       token: generateToken(counsellor._id),
-      admin: req.admin.id,
     })
   } else {
     res.status(401)
