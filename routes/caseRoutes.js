@@ -12,11 +12,11 @@ const {
 } = require('../controllers/caseController')
 
 const { counsellorprotect } = require('../middleware/counsellorMiddleware')
-const { caseprotect } = require('../middleware/caseMiddleware')
+// const { caseprotect } = require('../middleware/caseMiddleware')
 
 router.post('/',counsellorprotect, registerCase)
 router.post('/login', loginCase)
-router.get('/me', caseprotect, getMe)
+// router.get('/me', caseprotect, getMe)
 router.get('/',getCases)
 router
   .route('/:id')
@@ -24,7 +24,7 @@ router
 router.route('/updateCase/:id').put(counsellorprotect, updateCase);
 //Version 3
 router.route('/remarks/:id').put(counsellorprotect, addRemarks);
-router.route('/viewRemarks/:id').get(caseprotect, viewRemarks);
+// router.route('/viewRemarks/:id').get(caseprotect, viewRemarks);
 
 
 
