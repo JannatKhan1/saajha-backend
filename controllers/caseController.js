@@ -62,7 +62,7 @@ const generateToken = (id) => {
 }
 
 // @desc    Register a new case
-// @route   /api/registerCase
+// @route   /api/case/registerCase
 // @access  Public
 const registerCase = asyncHandler(async (req, res) => {
   const { name, email, password, guardianName, guardianPhone,
@@ -141,7 +141,7 @@ const registerCase = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get all cases
-// @route   GET /api/case/all
+// @route   GET /api/case/
 // @access  Public
 const getCases = asyncHandler(async (req, res) => {
   const cases = await Case.find()

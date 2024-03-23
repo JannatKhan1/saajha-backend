@@ -17,7 +17,7 @@ const { caseprotect } = require('../middleware/caseMiddleware')
 router.post('/',counsellorprotect, registerCase)
 router.post('/login', loginCase)
 router.get('/me', caseprotect, getMe)
-router.get('/all',getCases)
+router.get('/',getCases)
 router
   .route('/:id')
   .get(counsellorprotect, getCase)
