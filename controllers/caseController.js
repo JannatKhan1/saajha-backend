@@ -18,7 +18,23 @@ const loginCase = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: cases._id,
       name: cases.name,
-      email: cases.email,
+      email: cases.email, 
+      guardianName: cases.guardianName, 
+      guardianPhone: cases.guardianPhone,
+      dob: cases.dob,
+      developmentalHistory: cases.developmentalHistory,
+      gender: cases.gender,
+      presentComplaints: cases.presentComplaints,
+      advice: cases.advice,
+      previousDiagnosis: cases.previousDiagnosis,
+      currentDiagnosis: cases.currentDiagnosis,
+      clinicalObservation: cases.clinicalObservation,
+      suggestedInvestigationType: cases.suggestedInvestigationType,
+      diagnosticTest: cases.diagnosticTest,
+      testResults: cases.testResults,
+      report: cases.report,
+      SuggestionsForFurtherInvestigation: cases.SuggestionsForFurtherInvestigation,
+      token: generateToken(cases._id),
     })
   } else {
     res.status(401)
