@@ -333,13 +333,9 @@ const getAll = asyncHandler(async (req, res) => {
   // Find cases matching the counsellorId
   const casee = await Case.find({ counsellor: counsellorId })
 
- 
-  // Check if the requester is authorized to access the application
   const authorizedCase = casee.filter(cases =>cases.counsellor.toString() === req.counsellor.id);
 
-
-  // Return the authorized applications
-  res.status(200).json(authorizedApplications);
+  res.status(200).json(authorizedCase);
 });
 
 module.exports = {
