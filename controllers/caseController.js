@@ -331,7 +331,7 @@ const getAll = asyncHandler(async (req, res) => {
   const { counsellorId } = req.params;
 
   // Find cases matching the counsellorId
-  const casee = await Case.find({ counsellor: counsellorId }).populate('case');
+  const casee = await Case.find({ counsellor: counsellorId })
 
  
   // Check if the requester is authorized to access the application
