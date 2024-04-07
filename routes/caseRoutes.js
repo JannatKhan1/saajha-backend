@@ -9,6 +9,7 @@ const {
   updateCase,
   addRemarks,  //Version 3
   viewRemarks, //Version 3
+  getAll,
 } = require('../controllers/caseController')
 
 const { counsellorprotect } = require('../middleware/counsellorMiddleware')
@@ -26,6 +27,6 @@ router.route('/updateCase/:id').put(counsellorprotect, updateCase);
 router.route('/remarks/:id').put(counsellorprotect, addRemarks);
 router.route('/viewRemarks/:id').get(caseprotect, viewRemarks);
 
-
+router.get('/getAll/:counsellorId', counsellorprotect, getAll)
 
 module.exports = router

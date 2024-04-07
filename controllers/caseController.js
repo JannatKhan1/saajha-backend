@@ -324,6 +324,24 @@ const viewRemarks = asyncHandler(async (req, res) => {
   res.status(200).json(response)
 })
 
+// @desc    Get all cases by counsellor
+// @route   GET /api/case/getAll/:counsellorId
+// @access  Private
+const getAll = asyncHandler(async (req, res) => {
+  const { counsellorId } = req.params;
+
+  // Find cases matching the counsellorId
+  const casee = await Case.find({ counsellor: counsellorId }).populate('case');
+
+ 
+  // Check if the requester is authorized to access the application
+  const authorizedCase = casee.filter(cases =>cases.counsellor.toString() === req.counsellor.id);
+
+
+  // Return the authorized applications
+  res.status(200).json(authorizedApplications);
+});
+
 module.exports = {
   loginCase,
   getMe,
@@ -333,4 +351,5 @@ module.exports = {
   updateCase,
   addRemarks,
   viewRemarks,
+  getAll,
 }
