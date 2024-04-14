@@ -22,18 +22,7 @@ const loginCase = asyncHandler(async (req, res) => {
       guardianName: cases.guardianName, 
       guardianPhone: cases.guardianPhone,
       dob: cases.dob,
-      developmentalHistory: cases.developmentalHistory,
       gender: cases.gender,
-      presentComplaints: cases.presentComplaints,
-      advice: cases.advice,
-      previousDiagnosis: cases.previousDiagnosis,
-      currentDiagnosis: cases.currentDiagnosis,
-      clinicalObservation: cases.clinicalObservation,
-      suggestedInvestigationType: cases.suggestedInvestigationType,
-      diagnosticTest: cases.diagnosticTest,
-      testResults: cases.testResults,
-      report: cases.report,
-      SuggestionsForFurtherInvestigation: cases.SuggestionsForFurtherInvestigation,
       token: generateToken(cases._id),
     })
   } else {
@@ -52,20 +41,9 @@ const getMe = asyncHandler(async (req, res) => {
     email: req. cases.email,
     name: req. cases.name,
     dob: req.cases.dob,
-    developmentalHistory: req.cases.developmentalHistory,
     gender: req.cases.gender,
     guardianName: req.cases.guardianName,
     guardianPhone: req.cases.guardianPhone,
-    advice: req.cases.advice,
-    previousDiagnosis: req.cases.previousDiagnosis,
-    currentDiagnosis: req.cases.currentDiagnosis,
-    clinicalObservation: req.cases.clinicalObservation,
-    suggestedInvestigationType: req.cases.suggestedInvestigationType,
-    diagnosticTest: req.cases.diagnosticTest,
-    testResults: req.cases.testResults,
-    report: req.cases.report,
-    presentComplaints: req.cases.presentComplaints,
-    SuggestionsForFurtherInvestigation: req.cases.SuggestionsForFurtherInvestigation,
   }
   res.status(200).json(cases)
 })
@@ -82,9 +60,7 @@ const generateToken = (id) => {
 // @access  Public
 const registerCase = asyncHandler(async (req, res) => {
   const { name, email, password, guardianName, guardianPhone,
-     dob, developmentalHistory, gender, presentComplaints, advice, previousDiagnosis,
-     currentDiagnosis, clinicalObservation, suggestedInvestigationType, diagnosticTest,
-     testResults, report, SuggestionsForFurtherInvestigation} = req.body
+     dob, gender } = req.body
 
   // Validation
   if (!name || !email || !password || !guardianName || !guardianPhone || !dob  || !gender ) {
@@ -112,19 +88,8 @@ const registerCase = asyncHandler(async (req, res) => {
     guardianName, 
     guardianPhone, 
     dob, 
-    developmentalHistory, 
     gender,
-    presentComplaints, 
-    advice,
-    counsellor: req.counsellor.id,
-    previousDiagnosis,
-    currentDiagnosis, 
-    clinicalObservation, 
-    suggestedInvestigationType, 
-    diagnosticTest, 
-    testResults, 
-    report, 
-    SuggestionsForFurtherInvestigation,
+  
   })
 
   if (cases) {
@@ -135,18 +100,7 @@ const registerCase = asyncHandler(async (req, res) => {
       guardianName: cases.guardianName, 
       guardianPhone: cases.guardianPhone,
       dob: cases.dob,
-      developmentalHistory: cases.developmentalHistory,
       gender: cases.gender,
-      presentComplaints: cases.presentComplaints,
-      advice: cases.advice,
-      previousDiagnosis: cases.previousDiagnosis,
-      currentDiagnosis: cases.currentDiagnosis,
-      clinicalObservation: cases.clinicalObservation,
-      suggestedInvestigationType: cases.suggestedInvestigationType,
-      diagnosticTest: cases.diagnosticTest,
-      testResults: cases.testResults,
-      report: cases.report,
-      SuggestionsForFurtherInvestigation: cases.SuggestionsForFurtherInvestigation,
       token: generateToken(cases._id),
       counsellor: req.counsellor.id,
     })
@@ -235,95 +189,7 @@ const updateCase = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Add remarks
-// @route   POST /api/case/remarks/:id
-// @access  Private
-const addRemarks = asyncHandler(async (req, res) => {
-  const casee = await Case.findById(req.params.id);
 
-  if (!casee) {
-    res.status(404);
-    throw new Error('Case not found');
-  }
-
-  if (casee.counsellor.toString() !== req.counsellor.id) {
-    res.status(401);
-    throw new Error('Not Authorized');
-  }
-
-  // Create a filter object using the case's ID
-  const filter = { _id: req.params.id };
-
-  // Create an update object with all the fields
-  const remarks = { 
-    developmentalHistory: req.body.developmentalHistory,
-    presentComplaints: req.body.presentComplaints,
-    advice: req.body.advice, 
-    previousDiagnosis: req.body.previousDiagnosis,
-    currentDiagnosis: req.body.currentDiagnosis,
-    clinicalObservation: req.body.clinicalObservation,
-    suggestedInvestigationType: req.body.suggestedInvestigationType,
-    diagnosticTest: req.body.diagnosticTest,
-    testResults: req.body.testResults,
-    report: req.body.report,
-    SuggestionsForFurtherInvestigation: req.body.SuggestionsForFurtherInvestigation,};
-  
-    for (const key in req.body) {
-      if (req.body[key]) {
-        remarks[key] = req.body[key];
-      }
-    }
-  
-      // Use findOneAndUpdate to update the Case and return the updated document
-  const addRemarks = await Case.findOneAndUpdate(filter, remarks, { new: true });
-
-  if (addRemarks) {
-    // Check if any fields were updated
-    const fieldsUpdated = Object.keys(remarks).some(key => addRemarks[key] !== casee[key]);
-
-    if (fieldsUpdated) {
-      // Case was updated successfully
-      res.status(200).json({ success: true, message: 'Remarks added', data: addRemarks });
-    } else {
-      // No fields were updated
-      res.status(200).json({ success: true, message: 'No new remarks' });
-    }
-  }
-});
-
-
-// @desc    View assigned counsellor and remarks by case ID
-// @route   GET /api/case/viewRemarks/:id
-// @access  Private
-const viewRemarks = asyncHandler(async (req, res) => {
-  const casee = await Case.findById(req.params.id).populate('counsellor');
-  if (!casee) {
-    res.status(404)
-    throw new Error('Case not found')
-  }
-
-  if (casee.id !== req.cases.id) {
-    res.status(401)
-    throw new Error('Not Authorized')
-  }
-
-  const response = {
-    counsellorName: casee.counsellor.name,
-    developmentalHistory: casee.developmentalHistory,
-    presentComplaints: casee.presentComplaints,
-    advice: casee.advice,
-    previousDiagnosis: casee.previousDiagnosis,
-    currentDiagnosis: casee.currentDiagnosis,
-    clinicalObservation: casee.clinicalObservation,
-    suggestedInvestigationType: casee.suggestedInvestigationType,
-    diagnosticTest: casee.diagnosticTest,
-    testResults: casee.testResults,
-    report: casee.report,
-    SuggestionsForFurtherInvestigation: casee.SuggestionsForFurtherInvestigation,
-  };
-
-  res.status(200).json(response)
-})
 
 // @desc    Get all cases by counsellor
 // @route   GET /api/case/getAll/:counsellorId
@@ -339,28 +205,7 @@ const getAll = asyncHandler(async (req, res) => {
   res.status(200).json(authorizedCase);
 });
 
-// @desc    Get all case remarks by counsellor
-// @route   GET /api/case/remarks/:id
-// @access  Private
-const getRemarks = asyncHandler(async (req, res) => {
-  const remarks = await Case.findById(req.params.id);
 
-
-  if (remarks.length === 0) {
-    res.status(404);
-    throw new Error('Remark not found');
-  }
-
-  const authorizedRemarks = remarks.filter(remark => remark.counsellor.toString() === req.counsellor.id);
-
-
-  if (authorizedRemarks.length === 0) {
-    res.status(401);
-    throw new Error('Not Authorized');
-  }
-
-  res.status(200).json(authorizedRemarks);
-});
 
 module.exports = {
   loginCase,
@@ -369,8 +214,5 @@ module.exports = {
   getCases,
   getCase,
   updateCase,
-  addRemarks,
-  viewRemarks,
   getAll,
-  getRemarks,
 }
