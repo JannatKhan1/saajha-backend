@@ -10,7 +10,7 @@ const { counsellorprotect } = require('../middleware/counsellorMiddleware')
 const { caseprotect } = require('../middleware/caseMiddleware')
 
 //Version 3
-router.route('/:caseId').put(counsellorprotect, addRemarks);
+router.route('/:caseId').post(counsellorprotect, addRemarks);
 
 router.route('/:caseId').get(counsellorprotect, getRemarks);
 
