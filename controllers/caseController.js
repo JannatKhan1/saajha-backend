@@ -291,6 +291,7 @@ const addRemarks = asyncHandler(async (req, res) => {
   }
 });
 
+
 // @desc    View assigned counsellor and remarks by case ID
 // @route   GET /api/case/viewRemarks/:id
 // @access  Private
@@ -338,6 +339,29 @@ const getAll = asyncHandler(async (req, res) => {
   res.status(200).json(authorizedCase);
 });
 
+// @desc    Get all case remarks by counsellor
+// @route   GET /api/case/remarks/:id
+// @access  Private
+const getRemarks = asyncHandler(async (req, res) => {
+  const remarks = await Case.findById(req.params.id);
+
+
+  if (remarks.length === 0) {
+    res.status(404);
+    throw new Error('Remark not found');
+  }
+
+  const authorizedRemarks = remarks.filter(remark => remark.counsellor.toString() === req.counsellor.id);
+
+
+  if (authorizedRemarks.length === 0) {
+    res.status(401);
+    throw new Error('Not Authorized');
+  }
+
+  res.status(200).json(authorizedRemarks);
+});
+
 module.exports = {
   loginCase,
   getMe,
@@ -348,4 +372,5 @@ module.exports = {
   addRemarks,
   viewRemarks,
   getAll,
+  getRemarks,
 }
