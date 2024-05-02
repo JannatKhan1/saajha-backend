@@ -101,7 +101,8 @@ const addRemarks = asyncHandler(async (req, res) => {
 // @route   GET /api/remarks/:id
 // @access  Private
 const getRemarks = asyncHandler(async (req, res) => {
-    const remarks = await Case.findById(req.params.id);
+    const { caseId } = req.params;
+    const remarks = await Remark.find({casee: caseId});
   
   
     if (remarks.length === 0) {
