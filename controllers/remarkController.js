@@ -98,7 +98,7 @@ const addRemarks = asyncHandler(async (req, res) => {
   })
 
 // @desc    Get all case remarks by counsellor
-// @route   GET /api/case/remarks/:id
+// @route   GET /api/remarks/:id
 // @access  Private
 const getRemarks = asyncHandler(async (req, res) => {
     const remarks = await Case.findById(req.params.id);
@@ -117,7 +117,21 @@ const getRemarks = asyncHandler(async (req, res) => {
       throw new Error('Not Authorized');
     }
   
-    res.status(200).json(authorizedRemarks);
+    const response = {
+      developmentalHistory: authorizedRemarks.developmentalHistory,
+      presentComplaints: authorizedRemarks.presentComplaints,
+      advice: authorizedRemarks.advice,
+      previousDiagnosis: authorizedRemarks.previousDiagnosis,
+      currentDiagnosis: authorizedRemarks.currentDiagnosis,
+      clinicalObservation: authorizedRemarks.clinicalObservation,
+      suggestedInvestigationType: authorizedRemarks.suggestedInvestigationType,
+      diagnosticTest: authorizedRemarks.diagnosticTest,
+      testResults: authorizedRemarks.testResults,
+      report: authorizedRemarks.report,
+      SuggestionsForFurtherInvestigation: authorizedRemarks.SuggestionsForFurtherInvestigation,
+    };
+  
+    res.status(200).json(response)
   });
 
 module.exports = {
