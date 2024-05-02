@@ -109,30 +109,8 @@ const getRemarks = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error('Remark not found');
     }
-  
-    const authorizedRemarks = remarks.filter(remark => remark.counsellor.toString() === req.counsellor.id);
-  
-  
-    if (authorizedRemarks.length === 0) {
-      res.status(401);
-      throw new Error('Not Authorized');
-    }
-  
-    const response = {
-      developmentalHistory: authorizedRemarks.developmentalHistory,
-      presentComplaints: authorizedRemarks.presentComplaints,
-      advice: authorizedRemarks.advice,
-      previousDiagnosis: authorizedRemarks.previousDiagnosis,
-      currentDiagnosis: authorizedRemarks.currentDiagnosis,
-      clinicalObservation: authorizedRemarks.clinicalObservation,
-      suggestedInvestigationType: authorizedRemarks.suggestedInvestigationType,
-      diagnosticTest: authorizedRemarks.diagnosticTest,
-      testResults: authorizedRemarks.testResults,
-      report: authorizedRemarks.report,
-      SuggestionsForFurtherInvestigation: authorizedRemarks.SuggestionsForFurtherInvestigation,
-    };
-  
-    res.status(200).json(response)
+
+      res.status(200).json(remarks)
   });
 
 module.exports = {
