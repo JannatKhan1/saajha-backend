@@ -16,7 +16,7 @@ router.post('/',adminprotect, registerCounsellor)
 router.post('/login', loginCounsellor)
 
 //Version 3
-router.get('/adminView',adminprotect, getCounsellors)
+router.get('/adminView/:ngoId',adminprotect, getCounsellors)
 router.route('/updateCounsellor/:id').put(counsellorprotect, updateCounsellor);
 
 router.get('/me', counsellorprotect, getMe)

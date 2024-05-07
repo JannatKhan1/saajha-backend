@@ -105,10 +105,11 @@ const getMe = asyncHandler(async (req, res) => {
 
 //Version 3
 // @desc    Get all Counsellor
-// @route   GET /api/counsellor/adminView/:id
+// @route   GET /api/counsellor/adminView/:ngoId
 // @access  Private
 const getCounsellors = asyncHandler(async (req, res) => {
-  const counsellors = await Counsellor.find();
+  const { ngoId } = req.params;
+  const counsellors = await Counsellor.find({ ngo: ngoId });
   
   const authorizedCounsellors = counsellors.filter(counsellor => {
     return counsellor.admin.toString() === req.admin.id;
