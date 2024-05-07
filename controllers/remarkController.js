@@ -65,37 +65,46 @@ const addRemarks = asyncHandler(async (req, res) => {
   // @access  Private
   const viewRemarks = asyncHandler(async (req, res) => {
     const { caseId } = req.params;
-    const remarks = await Remark.find({casee: caseId});
-    const casee = await Case.findById(caseId).populate('counsellor')
+    const remarks = await Remark.find({ casee: caseId });
+    const casee = await Case.findById(caseId).populate('counsellor');
     
-    if (!remarks) {
-      res.status(404)
-      throw new Error('Remark not found')
+    if (!casee) {
+        res.status(404);
+        throw new Error('Case not found');
     }
 
-    if (!casee) {
-        res.status(404)
-        throw new Error('Case not found')
-      }
+    // Check if remarks exist
+    if (!remarks || remarks.length === 0) {
+        res.status(404);
+        throw new Error('Remarks not found');
+    }
 
-  
+    // Map remarks to extract the required fields
+    const mappedRemarks = remarks.map(remark => ({
+        developmentalHistory: remark.developmentalHistory,
+        presentComplaints: remark.presentComplaints,
+        advice: remark.advice,
+        previousDiagnosis: remark.previousDiagnosis,
+        currentDiagnosis: remark.currentDiagnosis,
+        clinicalObservation: remark.clinicalObservation,
+        suggestedInvestigationType: remark.suggestedInvestigationType,
+        diagnosticTest: remark.diagnosticTest,
+        testResults: remark.testResults,
+        report: remark.report,
+        SuggestionsForFurtherInvestigation: remark.SuggestionsForFurtherInvestigation
+    }));
+
+    // Extract counsellor name
+    const counsellorName = casee.counsellor.name;
+
+    // Construct response object
     const response = {
-      counsellorName: casee.counsellor.name,
-      developmentalHistory: remarks.developmentalHistory,
-      presentComplaints: remarks.presentComplaints,
-      advice: remarks.advice,
-      previousDiagnosis: remarks.previousDiagnosis,
-      currentDiagnosis: remarks.currentDiagnosis,
-      clinicalObservation: remarks.clinicalObservation,
-      suggestedInvestigationType: remarks.suggestedInvestigationType,
-      diagnosticTest: remarks.diagnosticTest,
-      testResults: remarks.testResults,
-      report: remarks.report,
-      SuggestionsForFurtherInvestigation: remarks.SuggestionsForFurtherInvestigation,
+        counsellorName,
+        remarks: mappedRemarks
     };
-  
-    res.status(200).json(response)
-  })
+
+    res.status(200).json(response);
+});
 
 // @desc    Get all case remarks by counsellor
 // @route   GET /api/remarks/:id
